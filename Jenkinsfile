@@ -9,7 +9,7 @@ pipeline {
         ansiColor('xterm')
     }
     stages{
-        stage("code files chekcing")
+        stage('code files chekcing')
             steps{
                 sh"""
                     pwd
