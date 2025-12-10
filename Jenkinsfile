@@ -11,13 +11,13 @@ pipeline {
         ansiColor('xterm')
     }
     stages{
-        stage('code files chekcing'){
+        stage('Install Dependencies'){
             steps{
                 sh"""
                     pwd
                     ls -ltr
-                    cd backend
-                    ls -ltr
+                    npm install
+                    
 
                 """
             }
