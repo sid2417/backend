@@ -31,6 +31,8 @@ pipeline {
         stage('Read Version'){
 			steps{
 				script{
+                    def json = readFile('package.json')
+                    echo "DEBUG_JSON: ${json}"
 					def packageJson = readJSON file: 'package.json'
 					env.appVersion = packageJson.version
 					
