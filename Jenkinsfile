@@ -13,6 +13,7 @@ pipeline {
 
     environment { 
         def appVersion = ''
+        nexusUrl = 'nexus.kithusdairy.fun:8081'
     }
     stages{
         stage('Read Version'){
@@ -41,7 +42,7 @@ pipeline {
                 """
             }
         }
-        stage('zip_artifact'){
+        stage('Build'){
 			steps{
 				script{
                     sh"""
@@ -52,7 +53,30 @@ pipeline {
 				}
 				
 			}
-        }      
+        }
+        stage('Nexus Artifact Uploader'){
+			steps{
+				script{
+                    nexusArtifactUploader(
+                        nexusVersion: 'nexus3',
+                        protocol: 'http',
+                        nexusUrl: "${nexusUrl}",
+                        groupId: 'com.morrisons',
+                        version: "${appVersion}",
+                        repository: 'backend',
+                        credentialsId: 'nexus-auth',
+                        artifacts: [
+                            [artifactId: 'backend',
+                            classifier: '',
+                            file: "backend-" + "${appVersion}" + '.zip',
+                            type: 'zip']
+                        ]
+                    )
+				
+				}
+				
+			}
+        }       
     }
 
     post { 
