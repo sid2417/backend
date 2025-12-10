@@ -12,7 +12,7 @@ pipeline {
     }
 
     environment { 
-        appVersion = ''
+        def appVersion = ''
     }
     stages{
         stage('Install Dependencies'){
