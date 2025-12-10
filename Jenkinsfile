@@ -15,24 +15,11 @@ pipeline {
         def appVersion = ''
     }
     stages{
-        stage('Install Dependencies'){
-            steps{
-                sh"""
-                    pwd
-                    ls -ltr
-                    npm install
-                    ls -ltr
-
-                    
-
-                """
-            }
-        }
         stage('Read Version'){
 			steps{
 				script{
-                    def json = readFile('package.json')
-                    echo "DEBUG_JSON: ${json}"
+                    // def json = readFile('package.json')
+                    // echo "DEBUG_JSON: ${json}"
 
 					def packageJson = readJSON file: 'package.json'
 					appVersion = packageJson.version
@@ -42,7 +29,29 @@ pipeline {
 				}
 				
 			}
-        }    
+        }
+        stage('Install Dependencies'){
+            steps{
+                sh"""
+                    pwd
+                    ls -ltr
+                    npm install
+                    ls -ltr
+                    echo "application version: $appVersion"
+                """
+            }
+        }
+        stage('zip_artifact'){
+			steps{
+				script{
+                    sh"""
+                        zip -r backend.${appVersion}.zip * -x Jenkinsfile -x backend.${appVersion}.zip
+                    """
+				
+				}
+				
+			}
+        }      
     }
 
     post { 
