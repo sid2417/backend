@@ -17,6 +17,8 @@ pipeline {
                     pwd
                     ls -ltr
                     npm install
+                    ls -ltr
+                    
                     
 
                 """
