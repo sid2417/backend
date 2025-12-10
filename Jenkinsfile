@@ -12,7 +12,7 @@ pipeline {
     }
 
     environment { 
-        def appVersion = ''
+        appVersion = ''
     }
     stages{
         stage('Install Dependencies'){
@@ -32,9 +32,9 @@ pipeline {
 			steps{
 				script{
 					def packageJson = readJSON file: 'package.json'
-					appVersion = packageJson.version
+					env.appVersion = packageJson.version
 					
-					echo "current_version: $appVersion"
+					echo "current_version: ${env.appVersion}"
 				
 				}
 				
